@@ -12,6 +12,7 @@ const AppContextProvider = (props) => {
     const [messagesId,setMessagesId]=useState(null);
     const [messages,setMessages]=useState([])
     const [chatUser,setChatUser]=useState(null)
+    const [userSelected,setUserSelected]=useState(false);
 
     // Fixing the loadUserData function to work with context and state
     const loadUserData = async (uid) => {
@@ -49,13 +50,11 @@ const AppContextProvider = (props) => {
     };
     
       useEffect(() => {
-        console.log(userData);
         if (userData) {
           const chatRef = doc(db, 'chats', userData.id);
           const unsub = onSnapshot(chatRef, async (res) => {
             const chatItems = res.data().chatsData || [];
-            console.log(res.data())
-            console.log(chatItems)
+          
             
             const tempData = [];
             for (const item of chatItems) {
@@ -82,7 +81,8 @@ const AppContextProvider = (props) => {
         loadUserData,
         messages,setMessages,
         messagesId,setMessagesId,
-        chatUser,setChatUser
+        chatUser,setChatUser,
+        userSelected,setUserSelected
     };
 
     return (
