@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
-  const { userData, chatData, chatUser, setChatUser, setMessagesId, messagesId } = useContext(AppContext);
+  const { userData, chatData, chatUser, setChatUser, setMessagesId, messagesId ,setUserSelected} = useContext(AppContext);
   const [user, setUser] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
 
@@ -53,13 +53,13 @@ const LeftSidebar = () => {
 
     const messageRef = collection(db, 'message');
     const chatsRef = collection(db, 'chats');
+
     try {
       const newMessageRef = doc(messageRef);
       await setDoc(newMessageRef, {
         createAt: serverTimestamp(),
         messages: []
       });
-      console.log(chatsRef, user.id);
       await updateDoc(doc(chatsRef, user.id), {
         chatsData: arrayUnion({
           messagesId: newMessageRef.id,
@@ -81,11 +81,11 @@ const LeftSidebar = () => {
       });
     } catch (error) {
       toast.error(error.message);
-      console.log(error.message);
     }
   };
   const setChat = async (item) => {
     try {
+      setUserSelected(true);
       setMessagesId(item.messagesId);
       setChatUser(item)
       const userChatsRef = doc(db, 'chats', userData.id);
@@ -97,12 +97,10 @@ const LeftSidebar = () => {
         chatData: userChatsData.chatsData
       })
     } catch (error) {
-      console.log(error)
       toast.error(error)
     }
 
   }
-  console.log(chatData)
   return (
     <div className='ls'>
       <div className="ls-top">
