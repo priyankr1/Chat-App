@@ -208,3 +208,20 @@
         max-width: 180px; /* Further adjust image max width */
     }
 }
+@media(max-width:700px){
+    .chat-box{
+width: 80vw;
+height: 72vh;
+    }
+    .msg{
+        width: 25vw;
+        max-width: 250px;
+        font-size: 13px;
+    }
+    .s-msg div img, .r-msg div img {
+        width: 30px;
+        aspect-ratio: 1/1;
+        border-radius: 50px;
+    }
+    
+}
