@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './LeftSidebar.css';
 import assets from '../../assets/assets/assets';
 import { useNavigate } from 'react-router-dom';
@@ -78,9 +78,22 @@ const LeftSidebar = () => {
           updatedAt: Date.now(),
           messageSeen: true
         })
-      });
+      })
+      const uSnap= await getDoc(doc(db,"users",user.id));
+      const uData=uSnap.data()
+      setChat({
+        messagesId:newMessageRef.id,
+        lastMessage:"",
+        rId:user.id,
+        updatedAt:Date.now(),
+        messageSeen:true,
+        userData:uData
+      })
+      setShowSearch(false);
+      setUserSelected(true)
     } catch (error) {
       toast.error(error.message);
+      console.log(error)
     }
   };
   const setChat = async (item) => {
@@ -92,15 +105,25 @@ const LeftSidebar = () => {
       const userChatsSnapShot = await getDoc(userChatsRef)
       const userChatsData = userChatsSnapShot.data();
       const chatIndex = userChatsData.chatsData.findIndex((c) => c.messageId === item.messageId)
-      userChatsData.chatData[chatIndex].messageSeen = true;
+      userChatsData.chatsData[chatIndex].messageSeen= true;
       await updateDoc(userChatsRef, {
-        chatData: userChatsData.chatsData
+        chatsData: userChatsData.chatsData
       })
     } catch (error) {
       toast.error(error)
     }
-
   }
+  useEffect(()=>{
+    const UpdateChatUserData=async()=>{
+      if (chatUser) {
+          const userRef=doc(db,"users",chatUser.userData.id)
+          const userSnap=await getDoc(userRef);
+          const userData=userSnap.data()
+          setChatUser(prev=>({...prev,userData:userData}))
+      }
+    }
+    UpdateChatUserData()
+  },[chatData])
   return (
     <div className='ls'>
       <div className="ls-top">
@@ -127,8 +150,7 @@ const LeftSidebar = () => {
             <p>{user.name}</p>
           </div>
         ) : chatData?.map((item, index) => (
-          <div onClick={() => { setChat(item); }} key={index} className={`friends ${item.messageSeen || item.messagesId ? '' : 'border'}`} >
-
+          <div onClick={() => { setChat(item); }} key={index} className={`friends ${item.messageSeen || item.messagesId=== messagesId? '' : 'border'}`} >
             <img src={item?.userData?.avatar} alt="" />
             <div>
               <p>{item?.userData?.name}</p>
@@ -142,4 +164,5 @@ const LeftSidebar = () => {
 }
 
 export default LeftSidebar;
+
 
