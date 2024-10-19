@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import './Login.css'
 import assets from '../../assets/assets/assets';
 import Box from '@mui/material/Box';
-import { signup ,login} from '../../config/firebase';
+import { signup ,login,resetPass} from '../../config/firebase';
 
 const Login = () => {
     const[currState,setCurrState]=useState('Sign up')
@@ -30,15 +30,18 @@ const Login = () => {
         <input onChange={(e)=>setPassword(e.target.value)} value={password} className='form-input' type="password" placeholder='Password' required/>
         <Button type='submit' variant="contained">{currState==='Sign up'?'Creat account':'Login now'}</Button>
         <Box className='login-term'>
-            <input type="checkbox" />
+            <input type="checkbox" required />
             <p>Agree to the terms to use & privacy policy </p>
         </Box>
         <Box className='login-forgot'>
             {
-                currState==='Sign up'? <p className='login-toggle'>Already have an account <span onClick={()=>{setCurrState('Login')}}>Click here</span></p>:           
+                currState==='Sign up'?
+                 <p className='login-toggle'>Already have an account <span onClick={()=>{setCurrState('Login')}}>Click here</span></p>:           
                 <p className='login-toggle'>Create an account <span onClick={()=>{setCurrState('Sign up')}}>Click here</span></p>
             }
-
+            {
+              currState=='Login'? <p className='login-toggle'>Forgot Password <span onClick={()=>{resetPass(email)}}>reset here</span></p>:null
+            }
         </Box>
       </form>
     </Box>
@@ -46,3 +49,4 @@ const Login = () => {
 }
 
 export default Login;
+
