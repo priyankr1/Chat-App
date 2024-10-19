@@ -133,7 +133,11 @@
     font-weight: 500;
     color: #383838;
 }
+.chat-user .arrow{
+    display: none;
+}
 /* Media Queries */
+
 
 @media(max-width:700px){
     .chat-box{
@@ -150,5 +154,10 @@ height: 72vh;
         aspect-ratio: 1/1;
         border-radius: 50px;
     }
-    
+    .chat-user .arrow{
+        display: block;
+    }
+    .chat-user .help{
+        display: none;
+    }
 }
