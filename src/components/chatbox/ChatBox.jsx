@@ -8,14 +8,11 @@ import { db } from '../../config/firebase';
 import { toast } from 'react-toastify';
 import upload from '../../lib/upload';
 const ChatBox = () => {
-  const {userData,messagesId,chatUser,messages,setMessages}=useContext(AppContext);
+  const {userData,messagesId,chatUser,messages,setMessages,setUserSelected}=useContext(AppContext);
   const [input,setInput]=useState("");
   const sendMessage=async()=>{
-    console.log('hello1')
     try {
-      console.log(input,messagesId)
       if(input && messagesId){
-        console.log('hie')
           await updateDoc(doc(db,'message',messagesId),{
             messages:arrayUnion({
               sId:userData.id,
@@ -24,16 +21,13 @@ const ChatBox = () => {
             })
           })
           const userIDs=[chatUser.rId,userData.id];
-          console.log('hellourid',userIDs)
           userIDs.forEach(async (id) =>{
             const userChatsRef=doc(db,'chats',id)
             const userChatsSnapShot=await getDoc(userChatsRef);
             if (userChatsSnapShot.exists) {
 
-              console.log("hey ji")
               const userChatData= userChatsSnapShot.data();
               const chatIndex=userChatData.chatsData.findIndex((c)=>c.messagesId===messagesId)
-              console.log(chatIndex)
               userChatData.chatsData[chatIndex].lastMessage=input.slice(0,30);
               userChatData.chatsData[chatIndex].updateAt=Date.now();
               if (userChatData.chatsData[chatIndex].rId===userData.id) {
@@ -47,7 +41,6 @@ const ChatBox = () => {
           })
       }
     } catch (error) {
-      console.log(error)
       toast.error(error)
     }
     setInput('')
@@ -64,16 +57,13 @@ const ChatBox = () => {
           })
         })
         const userIDs=[chatUser.rId,userData.id];
-        console.log('hellourid',userIDs)
         userIDs.forEach(async (id) =>{
           const userChatsRef=doc(db,'chats',id)
           const userChatsSnapShot=await getDoc(userChatsRef);
           if (userChatsSnapShot.exists) {
 
-            console.log("hey ji")
             const userChatData= userChatsSnapShot.data();
             const chatIndex=userChatData.chatsData.findIndex((c)=>c.messagesId===messagesId)
-            console.log(chatIndex)
             userChatData.chatsData[chatIndex].lastMessage="image";
             userChatData.chatsData[chatIndex].updateAt=Date.now();
             if (userChatData.chatsData[chatIndex].rId===userData.id) {
@@ -105,9 +95,7 @@ const ChatBox = () => {
       const unSub = onSnapshot(doc(db, 'message', messagesId), (res) => {
         if (res.exists()) {
           const messageData = res.data().messages || [];  
-        console.log(messageData)
           setMessages([...messageData].reverse());
-          console.log('Messages:', messageData.reverse());
         } else {
           // Document does not exist
           console.log('Document with messagesId does not exist.');
@@ -118,14 +106,15 @@ const ChatBox = () => {
         unSub();
       };
     }
-  }, [messagesId]);
-  
+  }, [messagesId, chatUser, userData]);
+
   return chatUser?(
     <Box className='chat-box'>
       <Box className='chat-user'>
         <img src={chatUser.userData.avatar} alt="" />
-        <p>{chatUser.userData.name}<img className='dot' src={assets.green_dot} alt="" /></p>
-        <img src={assets.help_icon} alt="" />
+        <p>{chatUser.userData.name}{Date.now()-chatUser.userData.lastSeen<=70000 ? <img className='dot' src={assets.green_dot} alt="" />:null}</p>
+        <img src={assets.help_icon} alt="" className='help'/>
+        <img onClick={()=>setUserSelected(false)} src={assets.arrow_icon} className='arrow' alt="" />
       </Box>
 
       <Box className="chat-msg">
@@ -160,3 +149,4 @@ const ChatBox = () => {
 }
 
 export default ChatBox;
+
