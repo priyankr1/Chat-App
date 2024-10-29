@@ -47,3 +47,38 @@
     border: 1px solid #c9c9c9;
     outline-color: #077eff;
 }
+@media (max-width: 768px) {
+    .profile-conatiner {
+        flex-direction: flex;
+        min-width: 90%;
+        padding: 20px;
+    }
+
+    .profile-pic {
+        max-width: 120px;
+    }
+
+    .profile form {
+        padding: 20px;
+        width: 100%;
+    }
+    .btnS{
+        width: 10px; ;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-conatiner {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .profile-pic {
+        max-width: 100px;
+    }
+
+    .profile input,textarea {
+        min-width: unset;
+        width: 70%;
+    }
+}
