@@ -89,7 +89,7 @@ const Profile = () => {
           </label>
           <input onChange={(e) => setName(e.target.value)} value={name} type="text" placeholder='Your name' required />
           <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder='Write profile bio'></textarea>
-          <Button type='submit' variant="contained">Save</Button>
+          <Button className="btnS" type='submit' variant="contained">Save</Button>
         </form>
         <img className='profile-pic' src={image ? URL.createObjectURL(image) : prevImage ? prevImage : assets.logo_icon} alt="" />
       </div>
