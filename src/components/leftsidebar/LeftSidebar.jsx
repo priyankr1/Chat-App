@@ -151,8 +151,8 @@ const LeftSidebar = () => {
             <p>{user.name}</p>
           </div>
         ) : chatData?.map((item, index) => (
-          <div onClick={() => { setChat(item); }} key={index} className={`friends ${item.messageSeen || item.messagesId=== messagesId? '' : 'border'}`} >
-            <img src={item?.userData?.avatar} alt="" />
+          <div onClick={() => { setChat(item); }} key={index} className={`friends ${item.messageSeen || item.messagesId === messagesId ? '' : 'border'}`} >
+            <img src={assets.profile_img} alt="" />
             <div>
               <p>{item?.userData?.name}</p>
               <span>{item?.lastMessage}</span>
@@ -165,5 +165,6 @@ const LeftSidebar = () => {
 }
 
 export default LeftSidebar;
+
 
 
