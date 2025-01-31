@@ -7,7 +7,9 @@ import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from 'firebase/firesto
 import { db } from '../../config/firebase';
 import { toast } from 'react-toastify';
 import upload from '../../lib/upload';
+import { useNavigate } from 'react-router-dom';
 const ChatBox = () => {
+  const navigate=useNavigate()
   const {userData,messagesId,chatUser,messages,setMessages,setUserSelected}=useContext(AppContext);
   const [input,setInput]=useState("");
   const sendMessage=async()=>{
@@ -121,7 +123,7 @@ const ChatBox = () => {
         {messages.map((msg,index)=>(
                 <Box key={index} className={msg.sId===userData.id ? 's-msg':'r-msg'}>
                   {msg["image"]
-                  ?<img className='msg-img' src={msg.image}/>
+                  ?<img  className='msg-img' src={msg.image}/>
                 :  <p className='msg'>{msg.text}</p>}
                 <Box>
                   <img src={msg.sId===userData.id?userData.avatar:chatUser.userData.avatar} alt="" />
@@ -149,4 +151,5 @@ const ChatBox = () => {
 }
 
 export default ChatBox;
+
 
