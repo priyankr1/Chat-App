@@ -22,7 +22,7 @@ const RightSidebar = () => {
   return chatUser?(
       <Box className='rs'>
         <Box className="rs-profile">
-          <img className='prof-img' src={chatUser.userData.avatar} alt="" />
+          <img className='prof-img' src={assets.profile_img} alt="" />
           <h3>{chatUser.userData.name}{Date.now() - chatUser.userData.lastSeen<=70000?<img className='dot' src={assets.green_dot} alt="" />:null} </h3>
           <p>{chatUser.userData.bio}</p>
         </Box>
