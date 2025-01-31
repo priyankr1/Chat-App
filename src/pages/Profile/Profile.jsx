@@ -23,12 +23,7 @@ const Profile = () => {
 
   const ProfileUpdate = async (event) => {
     event.preventDefault();
-    console.log(prevImage);
     try {
-      if (!prevImage && !image) {
-        toast.error("Upload Profile picture");
-        return; // Exit early if no image
-      }
       const docRef = doc(db, 'users', uid);
       if (image) {
         const imgUrl = await upload(image);
@@ -83,15 +78,15 @@ const Profile = () => {
         <form onSubmit={ProfileUpdate}>
           <h3>Profile Details</h3>
           <label htmlFor="avatar">
-            <input onChange={(e) => setImage(e.target.files[0])} type="file" id='avatar' accept='.png,.jpg,.jpeg' hidden />
-            <img src={image ? URL.createObjectURL(image) : prevImage ? prevImage : assets.avatar_icon} alt="" />
+            {/* <input onChange={(e) => setImage(e.target.files[0])} type="file" id='avatar' accept='.png,.jpg,.jpeg' hidden /> */}
+            <img src={/*image ? URL.createObjectURL(image) : prevImage ? prevImage :*/ assets.profile_img} alt="" />
             Upload Profile image
           </label>
           <input onChange={(e) => setName(e.target.value)} value={name} type="text" placeholder='Your name' required />
           <textarea onChange={(e) => setBio(e.target.value)} value={bio} placeholder='Write profile bio'></textarea>
-          <Button className="btnS" type='submit' variant="contained">Save</Button>
+          <Button className='btnS' type='submit' variant="contained">Save</Button>
         </form>
-        <img className='profile-pic' src={image ? URL.createObjectURL(image) : prevImage ? prevImage : assets.logo_icon} alt="" />
+        <img className='profile-pic' src={/*image ? URL.createObjectURL(image) : prevImage ? prevImage : assets.logo_icon*/assets.profile_img} alt="" />
       </div>
     </div>
   );
