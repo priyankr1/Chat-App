@@ -113,7 +113,7 @@ const ChatBox = () => {
   return chatUser?(
     <Box className='chat-box'>
       <Box className='chat-user'>
-        <img src={chatUser.userData.avatar} alt="" />
+        <img src={assets.profile_img} alt="" />
         <p>{chatUser.userData.name}{Date.now()-chatUser.userData.lastSeen<=70000 ? <img className='dot' src={assets.green_dot} alt="" />:null}</p>
         <img src={assets.help_icon} alt="" className='help'/>
         <img onClick={()=>setUserSelected(false)} src={assets.arrow_icon} className='arrow' alt="" />
@@ -126,7 +126,7 @@ const ChatBox = () => {
                   ?<img  className='msg-img' src={msg.image}/>
                 :  <p className='msg'>{msg.text}</p>}
                 <Box>
-                  <img src={msg.sId===userData.id?userData.avatar:chatUser.userData.avatar} alt="" />
+                  <img src={/*msg.sId===userData.id?userData.avatar:chatUser.userData.avatar*/ assets.profile_img} alt="" />
                   <p>{covertTimestamp(msg.createdAt)}</p>
                 </Box>
               </Box>
